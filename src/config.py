@@ -2,22 +2,29 @@ DATA_DIR = './data'
 
 ALL_METHODS = [
     'scale', 'hist', 'grad',
-    'spec_dft', 'spec_dct']
+    'dft', 'dct']
 
 METHODS_PARAM = {
     'scale': {'name': 'l', 'default': '2', 'range': (2, 11)},
     'hist': {'name': 'BIN', 'default': '32', 'range': (8, 65)},
     'grad': {'name': 'W', 'default': '10', 'range': (4, 21)},
-    'spec_dft': {'name': 'P', 'default': '20', 'range': (6, 31)},
-    'spec_dct': {'name': 'P', 'default': '20', 'range': (6, 31)}
+    'dft': {'name': 'P', 'default': '20', 'range': (6, 31)},
+    'dct': {'name': 'P', 'default': '20', 'range': (6, 31)}
 }
 
-ALL_DATABASES = ['ORL', 'Yale_faces']
+ALL_DATABASES = ['ORL']
 
 DATABASE_CONF = {
     'ORL': {
         'number_group': 40,
         'number_img': 10,
-        'img_path': './data/ORL/s{g}/{im}.pgm'
+        'img_path': './data/ORL/s{g}/{im}.png'
     }
 }
+
+RESEARCHES = [
+    "1/N-1",
+    "L/N-L"
+]
+
+RESULT = './data/results/{im}.jpg'

@@ -42,7 +42,6 @@ def dct(img, P=20):
 
 def hist(img, BIN=16):
     '''Извлечение признаков методом Hist (Гистограмма яркости)'''
-    # return np.histogram(img, bins=BIN, normed=True)
     M, N = img.shape
     top_hist = np.array([
         np.sum(
@@ -60,7 +59,7 @@ def hist(img, BIN=16):
     ])
     h = np.concatenate((top_hist, bottom_hist)) / (M*N)
     return (np.array(range(2*BIN)), h), h
-    
+
 
 def grad(img, W=16):
     '''Извлечение признаков методом Gradient'''
