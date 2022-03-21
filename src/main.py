@@ -3,7 +3,7 @@ from tkinter import (Button, Entry, IntVar, Label, OptionMenu, StringVar, Tk,
 
 from PIL import Image, ImageTk
 
-from config import ALL_METHODS, RESEARCHES, RESULT
+from core.config.config import ALL_METHODS, RESEARCHES, RESULT
 from core.research import research_1_N
 
 

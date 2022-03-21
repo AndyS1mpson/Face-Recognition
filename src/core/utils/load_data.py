@@ -1,5 +1,5 @@
 import cv2
-from config import DATABASE_CONF
+from core.config.config import DATABASE_CONF
 from sklearn.datasets import fetch_olivetti_faces
 import os
 

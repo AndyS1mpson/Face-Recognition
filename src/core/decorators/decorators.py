@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from config import RESULT
+from core.config.config import RESULT
 
 
 def param_plot(func):

@@ -1,7 +1,7 @@
 from typing import List
 
-from config import DATABASE_CONF, METHODS_PARAM
-from data import load
+from core.config.config import DATABASE_CONF, METHODS_PARAM
+from core.utils.load_data import load
 
 from core.classifiers.classifier import Classifier
 from core.decorators import param_plot
