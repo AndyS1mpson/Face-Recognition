@@ -65,7 +65,7 @@ class ExperimentFrame(Frame):
 
 
     def show_result(self):
-        score, images_with_marks, templates = recognition(
+        score, images, templates = recognition(
             'ORL',
             #research_method.get(),
             self.method.get(),
@@ -81,7 +81,7 @@ class ExperimentFrame(Frame):
         res_posx = 300
         res_posy = 50
 
-        for index, image in enumerate(images_with_marks):
+        for index, image in enumerate(images):
             templ = Image.fromarray(templates[index])
             templ.resize((50, 50))
             templ = ImageTk.PhotoImage(templ)
@@ -90,7 +90,7 @@ class ExperimentFrame(Frame):
             
             templ_posy += 80
 
-            img=Image.fromarray(image[0])
+            img=Image.fromarray(image)
             img.resize((50, 50))
             img = ImageTk.PhotoImage(img)
             self.result_images.append(img)

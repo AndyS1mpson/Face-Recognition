@@ -1,15 +1,18 @@
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 
 import numpy as np
 
-from core.utils import feature_extractors
-
 
 class Classifier:
-    def __init__(self, method: str) -> None:
+    def __init__(self, method: Callable) -> None:
+        """Инициализация.
+
+        Args:
+            method:
+                функция, извлекающая признаки из изображения. 
+        """
         self.method = method
         self.train_data = []
-
 
     def __get_features(self, image: List) -> List:
         """Извлечение признакового описания изображения.
@@ -22,7 +25,7 @@ class Classifier:
             List:
                 признаковое описание.
         """
-        return feature_extractors.HANDLER[self.method](image, self.param)[1]
+        return self.method(image, self.param)[1]
 
     
     def __dist(self, arr1: List, arr2: List) -> float:
@@ -54,26 +57,24 @@ class Classifier:
         d_min = float("inf")
         template_min = None
         template_group = None
-        for group, group_templates in enumerate(self.train_data):
-            for template in group_templates:
-                if (d := self.__dist(template, test)) < d_min:
-                    d_min = d
-                    template_min = template
-                    template_group = group
+        for train, group in self.train_data:
+            if (d := self.__dist(train, test)) < d_min:
+                d_min = d
+                template_min = train
+                template_group = group
         return template_min, template_group
 
-
-    def fit(self, images: List[Tuple], param: int) -> None:
-        features: List = [[] for i in range(len(images))] 
+    def fit(self, X: List, y: List, param: int) -> None:
         self.param = param
-        for image, im_group in images:
-            features[im_group].append(
-                self.__get_features(image)
+        for index, image in enumerate(X):
+            self.train_data.append(
+                (
+                    self.__get_features(image),
+                    y[index]
+                )
             )
-        self.train_data = features
 
-
-    def predict(self, images: List) -> List[Tuple]:
+    def predict(self, images: List) -> List:
         """Классификация изображений.
 
         Args:
@@ -81,14 +82,14 @@ class Classifier:
                 изображения которые надо проклассифицировать.
 
         Returns:
-            List[Tuple]:
-                список, содержащий изображения и назначенные им классификатором группы.
+            List:
+                список, содержащий назначенные классификатором группы.
         """
         predicted_groups = []
         for image in images:
             image_features = self.__get_features(image)
             _, group_num = self.__search(image_features)
-            predicted_groups.append((image, group_num))
+            predicted_groups.append(group_num)
         return predicted_groups
 
     def score(self, true_answers: List, predicted_answers: List) -> float:
