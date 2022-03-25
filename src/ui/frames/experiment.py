@@ -1,17 +1,22 @@
-from tkinter import Button, Canvas, Entry, Frame, Label, OptionMenu, StringVar
+from tkinter import BOTH, HORIZONTAL, RIGHT, VERTICAL, Button, Canvas, Entry, Frame, Label, OptionMenu, Scrollbar, StringVar
 
 from core.config.config import ALL_METHODS
 from core.recognition import recognition
 from PIL import Image, ImageTk
-
+import random
 
 class ExperimentFrame(Frame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.canvas = Canvas(self, width=1000, height=900)
-        self.canvas.grid(row=3, column=5, padx=15, pady=7)
+        # Скролбары
 
+        self.canvas = Canvas(self, width=1000, height=900)
+        #self.scroll_y = Scrollbar(self.canvas, orient=VERTICAL)
+        #self.scroll_y.grid(column=20)
+        self.canvas.grid(row=3, column=5, padx=15, pady=7)
+        #self.canvas.config(yscrollcommand=self.scroll_y.set, scrollregion=self.canvas.bbox("all"))
+        #self.scroll_y.config(command=self.canvas.yview)
         # Метод извлечения признаков
         self.method_label = Label(self, text="Параметр")
         self.method_label.grid(row=0, column=0, padx=15, pady=7)
@@ -81,16 +86,19 @@ class ExperimentFrame(Frame):
         res_posx = 300
         res_posy = 50
 
-        for index, image in enumerate(images):
+        random_indexes = [random.randrange(len(images)) for _ in range(5)]
+
+
+        for index in random_indexes:
             templ = Image.fromarray(templates[index])
             templ.resize((50, 50))
             templ = ImageTk.PhotoImage(templ)
             self.templates.append(templ)
             self.canvas.create_image(templ_posx, templ_posy, image=templ)
-            
+                
             templ_posy += 80
 
-            img=Image.fromarray(image)
+            img=Image.fromarray(images[index])
             img.resize((50, 50))
             img = ImageTk.PhotoImage(img)
             self.result_images.append(img)

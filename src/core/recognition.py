@@ -5,7 +5,6 @@ from core.utils import feature_extractors, load, split_data
 
 
 from core.classifiers.classifier import Classifier
-from core.decorators import param_plot
 
 
 def recognition(
@@ -52,7 +51,6 @@ def recognition(
     classifier = Classifier(feature_extractors.HANDLER[method])
     # Создаем train и test выборки
     X_train, X_test, y_train, y_test = split_data(images, templ_from, templ_to)
-    # Отделяем тестовые изображения от их меток 
 
     classifier.fit(X_train, y_train, param)    
     y_predicted = classifier.predict(X_test)
