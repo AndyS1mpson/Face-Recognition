@@ -23,7 +23,7 @@ class ResearchFrame(Frame):
         )
 
         # Метод извлечения признаков
-        self.method_label = Label(self.first_frame, text="Параметр")
+        self.method_label = Label(self.first_frame, text="Метод")
 
         self.method = StringVar()
         self.method.set(ALL_METHODS[1])
