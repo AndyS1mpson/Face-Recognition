@@ -9,10 +9,10 @@ class Classifier:
 
         Args:
             method:
-                функция, извлекающая признаки из изображения. 
+                функция, извлекающая признаки из изображения.
         """
         self.method = method
-        self.train_data = []
+        self.train_data: List = []
 
     def __get_features(self, image: List) -> List:
         """Извлечение признакового описания изображения.
@@ -27,13 +27,14 @@ class Classifier:
         """
         return self.method(image, self.param)[1]
 
-    
-    def __dist(self, arr1: List, arr2: List) -> float:
-        """Нахождение расстояния между двумя векторами в признаковом описании объектов.
+    def __dist(self, arr1: np.array, arr2: np.array) -> float:
+        """
+        Нахождение расстояния между двумя векторами
+        в признаковом описании объектов.
 
         Args:
             arr1:
-                вектор из признакового описания объектов. 
+                вектор из признакового описания объектов.
             arr2:
                 вектор из признакового описания объектов.
 
@@ -41,11 +42,13 @@ class Classifier:
             float:
                 расстояние между данными векторами
         """
-        return np.sqrt(np.sum((arr1 - arr2)**2))
+        return np.sqrt(np.sum((arr1 - arr2) ** 2))
 
+    def __search(self, test: np.array) -> Tuple:
+        """
+        Поиск эталона для тестового изображения
+        по критерию минимального расстояния.
 
-    def __search(self, test) -> Tuple:
-        """Поиск эталона для тестового изображения по критерию минимального расстояния.
         Args:
             test:
                 тестовое изображение.
@@ -66,13 +69,10 @@ class Classifier:
 
     def fit(self, X: List, y: List, param: int) -> None:
         self.param = param
+        train_data = []
         for index, image in enumerate(X):
-            self.train_data.append(
-                (
-                    self.__get_features(image),
-                    y[index]
-                )
-            )
+            train_data.append((self.__get_features(image), y[index]))
+        self.train_data = train_data
 
     def predict(self, images: List) -> List:
         """Классификация изображений.
@@ -97,5 +97,6 @@ class Classifier:
             raise Exception("Received arguments have different length")
         number_true = 0
         for index, ta in enumerate(true_answers):
-            if ta == predicted_answers[index]: number_true += 1
-        return (number_true/len(predicted_answers)) * 100
+            if ta == predicted_answers[index]:
+                number_true += 1
+        return number_true / len(predicted_answers)
