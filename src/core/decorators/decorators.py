@@ -1,22 +1,9 @@
-from typing import Callable, Tuple
+from typing import Callable, List, Tuple
 from matplotlib.figure import Figure
 
 import matplotlib.pyplot as plt
 
 from core.config.config import DATA_PATH, RESULT
-
-
-def param_plot(func) -> Callable:
-    def wrapper(*args, **kwargs) -> Tuple:
-        x, y = func(*args, **kwargs)
-        plt.plot(x, y)
-        plt.title("Изменение score при разных параметрах")
-        plt.xlabel("param")
-        plt.ylabel("score")
-        plt.savefig(RESULT.format(im="param_plot"))
-        return x, y
-
-    return wrapper
 
 
 def templ_num_plot(func) -> Callable:
@@ -33,9 +20,6 @@ def templ_num_plot(func) -> Callable:
             x = [x for _, x in b_scor_per_size]
             y = [y for y, _ in b_scor_per_size]
 
-            # fig: Figure = plt.figure()
-            # ax = fig.add_subplot(111)
-
             plt.plot(x, y)
             plt.xlabel("param")
             plt.ylabel("score")
@@ -47,8 +31,23 @@ def templ_num_plot(func) -> Callable:
                 f"Параметр: "
                 f"{[p for s, p in b_scor_per_size if  s == max(y)][0]}"
             )
-            plt.savefig("".join([DATA_PATH, f"/results/result_{index}.png"]))
+            plt.savefig("".join([DATA_PATH, f"results/result_{index}.png"]))
             plt.figure().clear()
         return best_scores, test_images, templ_for_tests
+    return wrapper
 
+
+def parallel_system_plot(func) -> Callable:
+    def wrapper(*args, **kwargs) -> List:
+        best_scores = func(*args, **kwargs)
+
+        x = [x for x, _ in best_scores]
+        y = [y for _, y in best_scores]
+
+        plt.plot(x, y)
+        plt.xlabel("train sample size")
+        plt.ylabel("score")
+        plt.title("Параллельная система, зависимость от размера выборки")
+        plt.savefig("".join([DATA_PATH, "results/parallel_result.png"]))
+        return best_scores
     return wrapper
