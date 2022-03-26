@@ -37,7 +37,8 @@ def research(db_name: str, method: str) -> Tuple[List, List, List]:
         print(f"Current train sample size: {img_num}")
         best_scores_with_params = []
         # Разделяем выборку
-        X_train, X_test, y_train, y_test = split_data(data=images, templ_to=img_num)
+        X_train, X_test, y_train, y_test = \
+            split_data(data=images, templ_to=img_num)
         # Проходимся по всем параметрам
         for param in range(*range_params):
             print(f"Current param: {param=}")

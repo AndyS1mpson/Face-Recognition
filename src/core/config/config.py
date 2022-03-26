@@ -3,7 +3,7 @@ DATA_DIR = "./data"
 ALL_METHODS = ["scale", "hist", "grad", "dft", "dct"]
 
 METHODS_PARAM = {
-    "scale": {"name": "l", "default": "2", "range": (2, 11)},
+    "scale": {"name": "l", "default": "2", "range": (2, 10)},
     "hist": {"name": "BIN", "default": "32", "range": (8, 65)},
     "grad": {"name": "W", "default": "10", "range": (4, 21)},
     "dft": {"name": "P", "default": "20", "range": (6, 31)},
