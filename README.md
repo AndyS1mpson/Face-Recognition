@@ -13,3 +13,7 @@ python -m venv venv
 ~~~console
 pip install -r requirements.txt
 ~~~
+Для запуска системы выполните слудющую команду:
+~~~console
+python src/main.py
+~~~
