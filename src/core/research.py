@@ -2,8 +2,8 @@ from collections import Counter
 from typing import List, Tuple
 
 from core.classifiers.classifier import Classifier
-from core.config import DATABASE_CONF, METHODS_PARAM, ALL_METHODS
-from core.decorators import templ_num_plot, parallel_system_plot
+from core.config import DATABASE_CONF, METHODS_PARAM
+from core.decorators import parallel_system_plot, templ_num_plot
 from core.utils import feature_extractors, load, split_data
 
 
@@ -30,33 +30,25 @@ def research(db_name: str, method: str) -> Tuple[List, List, List]:
     range_params = METHODS_PARAM[method]["range"]
 
     classifier = Classifier(feature_extractors.HANDLER[method])
-    best_scores_per_templ_size = []
-    # Изменяем число шаблонов в тренирочной выборке
-    for img_num in range(1, images_per_group_num):
+    best_scores_with_params = []
+    for param in range(*range_params):
         print("==================================")
-        print(f"Current train sample size: {img_num}")
-        best_scores_with_params = []
+        print(f"Current param: {param}")
         # Разделяем выборку
         X_train, X_test, y_train, y_test = \
-            split_data(data=images, templ_to=img_num)
-        # Проходимся по всем параметрам
-        for param in range(*range_params):
-            print(f"Current param: {param=}")
-            classifier.fit(X_train, y_train, param)
-            y_predicted = classifier.predict(X_test)
-            score = classifier.score(y_test, y_predicted)
-            # Записываем скор при текущем параметре метода и
-            # числе изображений в тестовой выборке
-            best_scores_with_params.append((score, param))
-        # Сохраняем результаты для текущего размера обучающей выборки
-        best_scores_per_templ_size.append(best_scores_with_params)
+            split_data(data=images, templ_to=2)
+        classifier.fit(X_train, y_train, param)
+        y_predicted = classifier.predict(X_test)
+        score = classifier.score(y_test, y_predicted)
+        # Записываем скор при текущем параметре метода
+        best_scores_with_params.append((score, param))
 
     templates_for_tests = []
     for mark in y_predicted:
         templates_for_tests.append(images[mark][0])
 
     print(f"{param=} ; {score=}")
-    return best_scores_per_templ_size, X_test, templates_for_tests
+    return best_scores_with_params, X_test, templates_for_tests
 
 
 @parallel_system_plot

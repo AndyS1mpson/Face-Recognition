@@ -93,6 +93,22 @@ class Classifier:
         return predicted_groups
 
     def score(self, true_answers: List, predicted_answers: List) -> float:
+        """Вычисление точности классификатора.
+
+        Args:
+            true_answers:
+                вектор правильных меток изображений.
+            predicted_answers:
+                вектор предсказанных классификатором меток.
+
+        Raises:
+            Exception:
+                вектора имеют разные размеры.
+
+        Returns:
+            float:
+                точность.
+        """
         if len(true_answers) != len(predicted_answers):
             raise Exception("Received arguments have different length")
         number_true = 0

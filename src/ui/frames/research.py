@@ -126,7 +126,11 @@ class ResearchFrame(Frame):
         self.scroll_x.pack(side=BOTTOM, fill=X)
         self.canvas.pack(fill=BOTH, expand=True)
 
-    def research(self):
+    def research(self) -> None:
+        """
+        Проведение исследований с последовательной системой
+        и отображение результатов.
+        """
         self.canvas.delete("all")
         best_scores, _, _ = research("ORL", self.method.get())
         self.result_images = []
@@ -134,17 +138,19 @@ class ResearchFrame(Frame):
         posx = 250
         posy = 250
 
-        for index, _ in enumerate(best_scores):
+        image = Image.open(DATA_PATH + f"results/result_1_n.png")
+        image = image.resize((350, 350))
+        image = ImageTk.PhotoImage(image)
+        self.result_images.append(image)
+        self.canvas.create_image(posx, posy, image=image)
 
-            image = Image.open(DATA_PATH + f"results/result_{index}.png")
-            image = image.resize((350, 350))
-            image = ImageTk.PhotoImage(image)
-            self.result_images.append(image)
-            self.canvas.create_image(posx, posy, image=image)
+        posx += 360
 
-            posx += 360
-
-    def parallel_research(self):
+    def parallel_research(self) -> None:
+        """
+        Проведение исследований с параллельной системой
+        и отображение результатов.
+        """
         global image
         self.canvas.delete("all")
         self.result_images = []

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def dist(arr1, arr2):
+def dist(arr1, arr2) -> float:
     """
     Вычисление расстояния между векторами.
     """
