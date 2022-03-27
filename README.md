@@ -13,7 +13,7 @@ python -m venv venv
 ~~~console
 pip install -r requirements.txt
 ~~~
-Создайте папки с названием "ORL" и "results" по пути "./data/" и запустите метод upload() по пути "./src/config/utils/load_data.py"  
+Создайте папки с названием "ORL" и "results" по пути "./data/" и запустите метод upload() по пути "./src/core/utils/load_data.py"  
 Запустить можно простым созданием файла с вызовом метода.  
 Данный метод загрузит все изображения из базы ORL.  
 
